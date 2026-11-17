@@ -288,7 +288,6 @@ body{{font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;backgrou
 .hd .sub span{{white-space:nowrap}}
 .hd .sub b{{color:#374151;font-weight:600;font-family:Consolas,monospace}}
 .hd .sub.sub2 b{{color:#6b7280;font-weight:600;font-family:inherit}}
-.banner{{margin:16px 30px 0;padding:11px 14px;background:#eef4ff;border:1px solid #c7dbff;border-radius:8px;font-size:12.5px;color:#1e40af;line-height:1.7}}
 table{{width:100%;border-collapse:collapse;font-size:14px}}
 th{{background:#fafbfc;text-align:left;padding:11px 16px;font-size:12px;font-weight:600;color:#6b7280;letter-spacing:.5px;border-bottom:1px solid #ebedf0}}
 td{{padding:11px 16px;border-bottom:1px solid #f2f3f5;vertical-align:middle}}
@@ -311,14 +310,13 @@ tr.grp td{{background:#f8f9fb;font-size:12.5px;font-weight:700;color:#4b5563;pad
 .kpi .v{{font-size:19px;font-weight:700;font-family:Consolas,monospace;margin-top:5px;color:#1f2328}}
 .kpi .d{{font-size:11.5px;color:#9aa0a6;margin-top:3px}}
 .miss{{margin:14px 30px 0;padding:10px 14px;background:#fff8e6;border:1px solid #f0d9a8;border-radius:8px;font-size:12.5px;color:#8a6d1f}}
-.ft{{padding:18px 30px 24px;font-size:12px;color:#9aa0a6;line-height:1.8;border-top:1px solid #f2f3f5;margin-top:18px}}
+.body-pad{{padding-bottom:22px}}
 @media(max-width:760px){{
   body{{padding:14px 10px}}
   .kpi{{grid-template-columns:repeat(2,1fr);padding:16px 16px 4px}}
-  .hd,.banner,.ft,.miss{{margin-left:0;margin-right:0}}
+  .hd,.miss{{margin-left:0;margin-right:0}}
   .hd{{padding:20px 18px}}
-  .banner,.miss{{margin:12px 16px 0}}
-  .ft{{padding:16px 18px 20px}}
+  .miss{{margin:12px 16px 0}}
   td,th{{padding:9px 10px}}
   .nm{{width:auto}}
   .px{{width:auto;font-size:15px}}
@@ -338,7 +336,6 @@ tr.grp td{{background:#f8f9fb;font-size:12.5px;font-weight:700;color:#4b5563;pad
     <span>涨跌基准 <b>前一交易日收盘 / 昨结</b></span>
     <span>品种数 <b>{len(q)}</b></span>
   </div>
-  <div class="banner">行情数据汇总，取自公开行情接口，不含分析判断。涨跌方向按中国习惯标注：<span class="up">红＝上涨</span>、<span class="dn">绿＝下跌</span>；汇率按 USD/CNY 报价口径，数值上涨（红色）表示人民币贬值。</div>
 </div>
 
 <div class="kpi">
@@ -350,12 +347,7 @@ tr.grp td{{background:#f8f9fb;font-size:12.5px;font-weight:700;color:#4b5563;pad
 <tbody>{rows_html}</tbody>
 </table>
 {missing_note}
-
-<div class="ft">
-数据源：公开行情接口（hq.sinajs.cn） ／ 中国货币网人民币中间价。<br>
-派生指标：金银比（现货金/现货银）、金油比（现货金/WTI）、布伦特-WTI 价差（美元/桶），均由当期报价实时计算。<br>
-内容为行情信息整理，不构成投资建议。数据可能存在延迟，请以交易所与官方公布为准。
-</div>
+<div class="body-pad"></div>
 </div></body></html>'''
 
 
