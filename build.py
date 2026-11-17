@@ -224,10 +224,19 @@ def main():
 
 def render(q):
     tz_cn = ZoneInfo("Asia/Shanghai")
+    tz_ny = ZoneInfo("America/New_York")
+    tz_ldn = ZoneInfo("Europe/London")
+    tz_dxb = ZoneInfo("Asia/Dubai")
     now = datetime.datetime.now(datetime.timezone.utc)
     cn = now.astimezone(tz_cn)
+    ny = now.astimezone(tz_ny)
+    ldn = now.astimezone(tz_ldn)
+    dxb = now.astimezone(tz_dxb)
     date_str = cn.strftime("%Y-%m-%d")
     cn_str = cn.strftime("%Y-%m-%d %H:%M")
+    ny_str = ny.strftime("%Y-%m-%d %H:%M")
+    ldn_str = ldn.strftime("%Y-%m-%d %H:%M")
+    dxb_str = dxb.strftime("%Y-%m-%d %H:%M")
 
     rows_html = ""
     for group in ["人民币汇率", "原油", "黄金", "其他贵金属"]:
@@ -274,8 +283,9 @@ body{{font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;backgrou
 .wrap{{max-width:1080px;margin:0 auto;background:#fff;border-radius:14px;box-shadow:0 2px 16px rgba(0,0,0,.07);overflow:hidden}}
 .hd{{padding:26px 30px 20px;border-bottom:1px solid #ebedf0}}
 .hd h1{{font-size:21px;font-weight:700;letter-spacing:.3px}}
-.hd .sub{{margin-top:7px;font-size:13px;color:#6b7280;display:flex;gap:18px;flex-wrap:wrap}}
-.hd .sub b{{color:#374151;font-weight:600}}
+.hd .sub{{margin-top:7px;font-size:13px;color:#6b7280;display:flex;gap:18px;flex-wrap:wrap;row-gap:6px}}
+.hd .sub span{{white-space:nowrap}}
+.hd .sub b{{color:#374151;font-weight:600;font-family:Consolas,monospace}}
 .banner{{margin:16px 30px 0;padding:11px 14px;background:#eef4ff;border:1px solid #c7dbff;border-radius:8px;font-size:12.5px;color:#1e40af;line-height:1.7}}
 table{{width:100%;border-collapse:collapse;font-size:14px}}
 th{{background:#fafbfc;text-align:left;padding:11px 16px;font-size:12px;font-weight:600;color:#6b7280;letter-spacing:.5px;border-bottom:1px solid #ebedf0}}
@@ -317,7 +327,10 @@ tr.grp td{{background:#f8f9fb;font-size:12.5px;font-weight:700;color:#4b5563;pad
 <div class="hd">
   <h1>金融市场实时行情汇总</h1>
   <div class="sub">
-    <span>行情时间 <b>{cn_str} 北京时间</b></span>
+    <span>北京时间 <b>{cn_str}</b></span>
+    <span>纽约时间 <b>{ny_str}</b></span>
+    <span>伦敦时间 <b>{ldn_str}</b></span>
+    <span>迪拜时间 <b>{dxb_str}</b></span>
     <span>涨跌基准 <b>前一交易日收盘 / 昨结</b></span>
     <span>品种数 <b>{len(q)}</b></span>
   </div>
