@@ -284,8 +284,10 @@ body{{font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;backgrou
 .hd{{padding:26px 30px 20px;border-bottom:1px solid #ebedf0}}
 .hd h1{{font-size:21px;font-weight:700;letter-spacing:.3px}}
 .hd .sub{{margin-top:7px;font-size:13px;color:#6b7280;display:flex;gap:18px;flex-wrap:wrap;row-gap:6px}}
+.hd .sub.sub2{{margin-top:5px;font-size:12.5px;color:#9aa0a6}}
 .hd .sub span{{white-space:nowrap}}
 .hd .sub b{{color:#374151;font-weight:600;font-family:Consolas,monospace}}
+.hd .sub.sub2 b{{color:#6b7280;font-weight:600;font-family:inherit}}
 .banner{{margin:16px 30px 0;padding:11px 14px;background:#eef4ff;border:1px solid #c7dbff;border-radius:8px;font-size:12.5px;color:#1e40af;line-height:1.7}}
 table{{width:100%;border-collapse:collapse;font-size:14px}}
 th{{background:#fafbfc;text-align:left;padding:11px 16px;font-size:12px;font-weight:600;color:#6b7280;letter-spacing:.5px;border-bottom:1px solid #ebedf0}}
@@ -331,6 +333,8 @@ tr.grp td{{background:#f8f9fb;font-size:12.5px;font-weight:700;color:#4b5563;pad
     <span>纽约时间 <b>{ny_str}</b></span>
     <span>伦敦时间 <b>{ldn_str}</b></span>
     <span>迪拜时间 <b>{dxb_str}</b></span>
+  </div>
+  <div class="sub sub2">
     <span>涨跌基准 <b>前一交易日收盘 / 昨结</b></span>
     <span>品种数 <b>{len(q)}</b></span>
   </div>
