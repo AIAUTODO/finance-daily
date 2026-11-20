@@ -25,22 +25,22 @@ HEADERS = {
                   "(KHTML, like Gecko) Chrome/120.0 Safari/537.36",
 }
 
-# 品种定义：(行情代码, 英文键, 显示名, 单位, 分组)
+# 品种定义：(行情代码, 英文键, 显示名, 单位, 分组, 英文名, 英文单位)
 SYMBOLS = [
-    ("fx_susdcny",  "cny",   "在岸人民币 USD/CNY", "—",        "人民币汇率"),
-    ("fx_susdcnh",  "cnh",   "离岸人民币 USD/CNH", "—",        "人民币汇率"),
-    ("DINIW",       "dxy",   "美元指数 DXY",       "—",        "人民币汇率"),
-    ("hf_CL",       "wti",   "WTI 原油",           "美元/桶",  "原油"),
-    ("hf_OIL",      "brent", "布伦特原油",         "美元/桶",  "原油"),
-    ("nf_SC0",      "sc",    "上海原油 SC 主连",   "元/桶",    "原油"),
-    ("hf_XAU",      "xau",   "伦敦现货黄金",       "美元/盎司", "黄金"),
-    ("hf_GC",       "gc",    "COMEX 黄金",         "美元/盎司", "黄金"),
-    ("nf_AU0",      "au",    "上海黄金 AU 主连",   "元/克",    "黄金"),
-    ("hf_XAG",      "xag",   "伦敦现货白银",       "美元/盎司", "其他贵金属"),
-    ("hf_SI",       "si",    "COMEX 白银",         "美元/盎司", "其他贵金属"),
-    ("nf_AG0",      "ag",    "上海白银 AG 主连",   "元/千克",   "其他贵金属"),
-    ("hf_XPT",      "xpt",   "铂金 XPT（纽约）",   "美元/盎司", "其他贵金属"),
-    ("hf_XPD",      "xpd",   "钯金 XPD（纽约）",   "美元/盎司", "其他贵金属"),
+    ("fx_susdcny",  "cny",   "在岸人民币 USD/CNY", "—",        "人民币汇率", "USD/CNY Onshore",   "—"),
+    ("fx_susdcnh",  "cnh",   "离岸人民币 USD/CNH", "—",        "人民币汇率", "USD/CNH Offshore",  "—"),
+    ("DINIW",       "dxy",   "美元指数 DXY",       "—",        "人民币汇率", "US Dollar Index",   "—"),
+    ("hf_CL",       "wti",   "WTI 原油",           "美元/桶",  "原油",       "WTI Crude",         "USD/bbl"),
+    ("hf_OIL",      "brent", "布伦特原油",         "美元/桶",  "原油",       "Brent Crude",       "USD/bbl"),
+    ("nf_SC0",      "sc",    "上海原油 SC 主连",   "元/桶",    "原油",       "Shanghai Crude SC", "CNY/bbl"),
+    ("hf_XAU",      "xau",   "伦敦现货黄金",       "美元/盎司", "黄金",       "Spot Gold (London)", "USD/oz"),
+    ("hf_GC",       "gc",    "COMEX 黄金",         "美元/盎司", "黄金",       "COMEX Gold",        "USD/oz"),
+    ("nf_AU0",      "au",    "上海黄金 AU 主连",   "元/克",    "黄金",       "Shanghai Gold AU",  "CNY/g"),
+    ("hf_XAG",      "xag",   "伦敦现货白银",       "美元/盎司", "其他贵金属", "Spot Silver (London)", "USD/oz"),
+    ("hf_SI",       "si",    "COMEX 白银",         "美元/盎司", "其他贵金属", "COMEX Silver",      "USD/oz"),
+    ("nf_AG0",      "ag",    "上海白银 AG 主连",   "元/千克",   "其他贵金属", "Shanghai Silver AG", "CNY/kg"),
+    ("hf_XPT",      "xpt",   "铂金 XPT（纽约）",   "美元/盎司", "其他贵金属", "Platinum XPT (NY)", "USD/oz"),
+    ("hf_XPD",      "xpd",   "钯金 XPD（纽约）",   "美元/盎司", "其他贵金属", "Palladium XPD (NY)", "USD/oz"),
 ]
 
 GROUP_COLORS = {
@@ -48,6 +48,13 @@ GROUP_COLORS = {
     "原油":       "#b45309",
     "黄金":       "#a16207",
     "其他贵金属": "#6b7280",
+}
+
+GROUP_EN = {
+    "人民币汇率": "CNY Rates",
+    "原油":       "Crude Oil",
+    "黄金":       "Gold",
+    "其他贵金属": "Other Metals",
 }
 
 
@@ -82,13 +89,15 @@ def num(s):
 
 def parse_quote(code, raw):
     """
-    解析单个品种，统一输出 (最新价, 涨跌幅%, 涨跌方向, 备注)
+    解析单个品种，统一输出 (最新价, 涨跌幅%, 涨跌方向, 备注, 结构化盘面字段)
     外盘 hf_*：  字段 0=最新 6=时间 7=昨收 8=今开 4=高 5=低
     现汇 fx_*：  字段 0=时间 1=最新 3=昨收 6=高 7=低
     美元指数：   0=时间 1=最新 3=昨收 5=高 6=低
     内盘 nf_*：  0=名称 8=最新 10=昨结 3=高 4=低
     """
     try:
+        vol = None
+        prev_kind = "prev"  # prev=昨收，settle=昨结
         if code.startswith("hf_"):
             last = num(raw[0])
             prev = num(raw[7])
@@ -112,6 +121,8 @@ def parse_quote(code, raw):
             prev = num(raw[10])
             high, low = num(raw[3]), num(raw[4])
             vol = num(raw[13]) if len(raw) > 13 else None
+            prev_kind = "settle"
+            t = ""
             note = f"昨结 {fmt(prev)}　日高 {fmt(high)}　日低 {fmt(low)}"
             if vol:
                 note += f"　持仓 {int(vol):,}"
@@ -122,7 +133,12 @@ def parse_quote(code, raw):
             return None
         pct = (last - prev) / prev * 100
         direction = "up" if pct > 0 else ("down" if pct < 0 else "flat")
-        return last, pct, direction, note
+        detail = {
+            "pk": prev_kind,
+            "h": fmt(high), "l": fmt(low), "pv": fmt(prev),
+            "t": t, "oi": (f"{int(vol):,}" if vol else ""),
+        }
+        return last, pct, direction, note, detail
     except (IndexError, TypeError, ZeroDivisionError):
         return None
 
@@ -177,7 +193,7 @@ def main():
     print(f"[info] 拉取到 {len(raw)}/{len(codes)} 个品种", file=sys.stderr)
 
     quotes = {}
-    for code, key, name, unit, group in SYMBOLS:
+    for code, key, name, unit, group, en_name, en_unit in SYMBOLS:
         if code not in raw or not raw[code]:
             print(f"[warn] 缺失：{code} {name}", file=sys.stderr)
             continue
@@ -185,10 +201,12 @@ def main():
         if not parsed:
             print(f"[warn] 解析失败：{code} {name}", file=sys.stderr)
             continue
-        last, pct, direction, note = parsed
+        last, pct, direction, note, detail = parsed
         quotes[key] = {
             "name": name, "unit": unit, "group": group,
+            "en_name": en_name, "en_unit": en_unit,
             "last": last, "pct": pct, "dir": direction, "note": note,
+            "detail": detail,
         }
 
     mid, mid_date, mid_bp = fetch_cny_mid()
@@ -197,14 +215,18 @@ def main():
             bp_val = float(mid_bp) if mid_bp not in (None, "", "---") else None
         except ValueError:
             bp_val = None
-        note = f"{mid_date} 官方公布值"
+        note = f"{mid_date} 官方公布值" if mid_date else "官方公布值"
+        en_note = f"{mid_date} official fixing" if mid_date else "official fixing"
         if bp_val is not None:
             # 中国货币网 bp 为上调/下调基点数，正值为调升
             note += f"　较前值{'调升' if bp_val > 0 else ('调降' if bp_val < 0 else '持平')} {abs(bp_val):.0f}bp"
+            en_note += f" | {'up' if bp_val > 0 else ('down' if bp_val < 0 else 'flat')} {abs(bp_val):.0f}bp"
         quotes["mid"] = {
             "name": "人民币中间价", "unit": "—", "group": "人民币汇率",
+            "en_name": "CNY Central Parity", "en_unit": "—",
             "last": float(mid), "pct": None, "dir": "flat",
-            "note": note,
+            "note": note, "en_note": en_note,
+            "detail": {"pk": "fix", "h": "—", "l": "—", "pv": "—", "t": "", "oi": ""},
         }
 
     if not quotes:
@@ -246,35 +268,46 @@ def render(q):
             continue
         color = GROUP_COLORS[group]
         rows_html += (f'<tr class="grp"><td colspan="4" '
-                      f'style="border-left:4px solid {color}">{group}</td></tr>')
+                      f'style="border-left:4px solid {color}">'
+                      f'<span data-zh="{group}" data-en="{GROUP_EN[group]}">{group}</span>'
+                      f'</td></tr>')
         for k, v in items:
             rows_html += row_cell(v)
-
-    # 派生指标
-    kpis = compute_kpis(q)
 
     up_n = sum(1 for v in q.values() if v["dir"] == "up")
     dn_n = sum(1 for v in q.values() if v["dir"] == "down")
     flat_n = sum(1 for v in q.values() if v["dir"] == "flat")
     kpis = compute_kpis(q) + [("涨跌家数", f"{up_n}:{dn_n}", "count")]
 
+    KPI_EN = {
+        "金银比": ("Gold/Silver Ratio", "spot gold / spot silver"),
+        "金油比": ("Gold/Oil Ratio", "spot gold / WTI"),
+        "布-WTI 价差": ("Brent-WTI Spread", "USD/bbl"),
+        "离岸-在岸价差": ("CNH-CNY Spread", "basis points"),
+        "涨跌家数": ("Advance / Decline", f"{flat_n} unchanged"),
+    }
+
     kpi_html = ""
     for label, value, desc in kpis:
+        en_label, en_desc = KPI_EN.get(label, (label, desc))
         if label == "涨跌家数":
-            kpi_html += (f'<div><div class="k">涨跌家数</div>'
+            kpi_html += (f'<div><div class="k"><span data-zh="{label}" data-en="{en_label}">{label}</span></div>'
                          f'<div class="v"><span class="up">{up_n}</span> : '
                          f'<span class="dn">{dn_n}</span></div>'
-                         f'<div class="d">平盘 {flat_n} 个</div></div>')
+                         f'<div class="d"><span data-zh="平盘 {flat_n} 个" data-en="{en_desc}">平盘 {flat_n} 个</span></div></div>')
         else:
-            kpi_html += (f'<div><div class="k">{label}</div>'
+            kpi_html += (f'<div><div class="k"><span data-zh="{label}" data-en="{en_label}">{label}</span></div>'
                          f'<div class="v">{value}</div>'
-                         f'<div class="d">{desc}</div></div>')
+                         f'<div class="d"><span data-zh="{desc}" data-en="{en_desc}">{desc}</span></div></div>')
 
-    missing = [v[2] for v in SYMBOLS if v[1] not in q]
+    missing = [s[2] for s in SYMBOLS if s[1] not in q]
+    missing_en = [s[5] for s in SYMBOLS if s[1] not in q]
     missing_note = ""
     if missing:
-        missing_note = (f'<div class="miss">本期未取到：{("、").join(missing)}'
-                        f'（数据源临时不可用，下期自动重试）</div>')
+        missing_note = ('<div class="miss">'
+                        f'<span data-zh="本期未取到：{("、").join(missing)}（数据源临时不可用，下期自动重试）"'
+                        f' data-en="Not available this run: {", ".join(missing_en)} (source temporarily down, retried next run)">'
+                        f'本期未取到：{("、").join(missing)}（数据源临时不可用，下期自动重试）</span></div>')
 
     return f'''<!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8">
@@ -315,8 +348,15 @@ tr.grp td{{background:#f8f9fb;font-size:12.5px;font-weight:700;color:#4b5563;pad
 .kpi .d{{font-size:11.5px;color:#9aa0a6;margin-top:3px}}
 .miss{{margin:14px 30px 0;padding:10px 14px;background:#fff8e6;border:1px solid #f0d9a8;border-radius:8px;font-size:12.5px;color:#8a6d1f}}
 .body-pad{{padding-bottom:22px}}
+.topbar{{max-width:1080px;margin:0 auto 14px;display:flex;align-items:center;justify-content:space-between;gap:12px}}
+.back{{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:#374151;text-decoration:none;background:#fff;border:1px solid #e3e6ea;border-radius:9px;padding:8px 14px;transition:.15s}}
+.back:hover{{border-color:#c8ccd2;color:#111827;box-shadow:0 2px 8px rgba(0,0,0,.06)}}
+.langbtn{{font-size:13px;font-weight:600;color:#4b5563;background:#fff;border:1px solid #e3e6ea;border-radius:9px;padding:8px 14px;cursor:pointer;transition:.15s}}
+.langbtn:hover{{border-color:#c8ccd2;color:#111827}}
 @media(max-width:760px){{
   body{{padding:14px 10px}}
+  .wrap{{border-radius:12px}}
+  .topbar{{margin-bottom:10px;padding:0 2px}}
   .kpi{{grid-template-columns:repeat(2,1fr);padding:16px 16px 4px}}
   .hd,.miss{{margin-left:0;margin-right:0}}
   .hd{{padding:20px 18px}}
@@ -327,18 +367,25 @@ tr.grp td{{background:#f8f9fb;font-size:12.5px;font-weight:700;color:#4b5563;pad
   .nt{{display:none}}
   table{{font-size:13px}}
 }}
-</style></head><body><div class="wrap">
+</style></head><body>
+
+<div class="topbar">
+  <a class="back" href="https://www.ilong.dpdns.org"><span data-zh="← 返回首页" data-en="← Back to Home">← 返回首页</span></a>
+  <button class="langbtn" id="langBtn" type="button">EN</button>
+</div>
+
+<div class="wrap">
 <div class="hd">
-  <h1>金融市场实时行情汇总</h1>
+  <h1><span data-zh="金融市场实时行情汇总" data-en="Global Markets Live Quotes">金融市场实时行情汇总</span></h1>
   <div class="sub">
-    <span>北京时间 <b>{cn_str}</b></span>
-    <span>纽约时间 <b>{ny_str}</b></span>
-    <span>伦敦时间 <b>{ldn_str}</b></span>
-    <span>迪拜时间 <b>{dxb_str}</b></span>
+    <span><span data-zh="北京时间" data-en="Beijing">北京时间</span> <b>{cn_str}</b></span>
+    <span><span data-zh="纽约时间" data-en="New York">纽约时间</span> <b>{ny_str}</b></span>
+    <span><span data-zh="伦敦时间" data-en="London">伦敦时间</span> <b>{ldn_str}</b></span>
+    <span><span data-zh="迪拜时间" data-en="Dubai">迪拜时间</span> <b>{dxb_str}</b></span>
   </div>
   <div class="sub sub2">
-    <span>涨跌基准 <b>前一交易日收盘 / 昨结</b></span>
-    <span>品种数 <b>{len(q)}</b></span>
+    <span><span data-zh="涨跌基准" data-en="Change basis">涨跌基准</span> <b data-zh="前一交易日收盘 / 昨结" data-en="previous close / prior settle">前一交易日收盘 / 昨结</b></span>
+    <span><span data-zh="品种数" data-en="Instruments">品种数</span> <b>{len(q)}</b></span>
   </div>
 </div>
 
@@ -347,12 +394,50 @@ tr.grp td{{background:#f8f9fb;font-size:12.5px;font-weight:700;color:#4b5563;pad
 </div>
 
 <table>
-<thead><tr><th>品种</th><th style="text-align:right">最新价</th><th style="text-align:right">涨跌幅</th><th>盘面</th></tr></thead>
+<thead><tr>
+<th data-zh="品种" data-en="Instrument">品种</th>
+<th style="text-align:right" data-zh="最新价" data-en="Last">最新价</th>
+<th style="text-align:right" data-zh="涨跌幅" data-en="Change">涨跌幅</th>
+<th data-zh="盘面" data-en="Session">盘面</th>
+</tr></thead>
 <tbody>{rows_html}</tbody>
 </table>
 {missing_note}
 <div class="body-pad"></div>
-</div></body></html>'''
+</div>
+
+<script>
+(function(){{
+  var KEY = "ilong-lang";
+  var btn = document.getElementById("langBtn");
+  var TITLE = {{zh: "金融市场实时行情 · {date_str}", en: "Market Quotes · {date_str}"}};
+
+  function apply(lang){{
+    var zh = lang !== "en";
+    document.documentElement.lang = zh ? "zh-CN" : "en";
+    var nodes = document.querySelectorAll("[data-zh]");
+    for (var i = 0; i < nodes.length; i++) {{
+      var el = nodes[i];
+      var txt = zh ? el.getAttribute("data-zh") : el.getAttribute("data-en");
+      if (txt !== null) el.textContent = txt;
+    }}
+    btn.textContent = zh ? "EN" : "中文";
+    btn.setAttribute("aria-label", zh ? "Switch to English" : "切换到中文");
+    document.title = zh ? TITLE.zh : TITLE.en;
+  }}
+
+  var saved = null;
+  try {{ saved = localStorage.getItem(KEY); }} catch (e) {{}}
+  apply(saved === "en" ? "en" : "zh");
+
+  btn.addEventListener("click", function(){{
+    var next = document.documentElement.lang === "zh-CN" ? "en" : "zh";
+    try {{ localStorage.setItem(KEY, next); }} catch (e) {{}}
+    apply(next);
+  }});
+}})();
+</script>
+</body></html>'''
 
 
 def compute_kpis(q):
@@ -378,20 +463,54 @@ def compute_kpis(q):
 
 def row_cell(v):
     d = v["dir"]
-    unit = f'<span class="un">{v["unit"]}</span>' if v["unit"] != "—" else ""
+    zh_name = v["name"]
+    en_name = v.get("en_name") or zh_name
+    zh_unit = v["unit"] if v["unit"] != "—" else ""
+    en_unit = v.get("en_unit") or ""
+    if en_unit == "—":
+        en_unit = ""
+    unit = (f'<span class="un" data-zh="{zh_unit}" data-en="{en_unit}">{zh_unit}</span>'
+            if zh_unit else "")
+
     if v["pct"] is None:
         pct_txt = "—"
-        abs_txt = "—"
         cls_pct = "flat"
     else:
         arrow = "▲" if d == "up" else ("▼" if d == "down" else "—")
         pct_txt = f'{arrow} {v["pct"]:+.2f}%'
-        abs_txt = f'{v["pct"]:+.2f}%'
         cls_pct = d
-    return (f'<tr><td class="nm">{v["name"]}{unit}</td>'
+
+    det = v.get("detail") or {}
+    if "en_note" in v:
+        # 中间价：整段备注直接中英对照
+        note_html = (f'<span data-zh="{v["note"]}" data-en="{v["en_note"]}">{v["note"]}</span>')
+    else:
+        pk_zh = "昨结" if det.get("pk") == "settle" else ("官方公布值" if det.get("pk") == "fix" else "昨收")
+        pk_en = "Settle" if det.get("pk") == "settle" else ("Fixing" if det.get("pk") == "fix" else "Prev")
+        zh_parts, en_parts = [], []
+        if det.get("h") and det["h"] != "—":
+            zh_parts.append(f'日高 {det["h"]}')
+            en_parts.append(f'High {det["h"]}')
+        if det.get("l") and det["l"] != "—":
+            zh_parts.append(f'日低 {det["l"]}')
+            en_parts.append(f'Low {det["l"]}')
+        if det.get("pv") and det["pv"] != "—":
+            zh_parts.append(f'{pk_zh} {det["pv"]}')
+            en_parts.append(f'{pk_en} {det["pv"]}')
+        if det.get("t"):
+            zh_parts.append(det["t"])
+            en_parts.append(det["t"])
+        if det.get("oi"):
+            zh_parts.append(f'持仓 {det["oi"]}')
+            en_parts.append(f'OI {det["oi"]}')
+        zh_txt = "　".join(zh_parts) if zh_parts else "—"
+        en_txt = " · ".join(en_parts) if en_parts else "—"
+        note_html = (f'<span data-zh="{zh_txt}" data-en="{en_txt}">{zh_txt}</span>')
+
+    return (f'<tr><td class="nm"><span data-zh="{zh_name}" data-en="{en_name}">{zh_name}</span>{unit}</td>'
             f'<td class="px {d if d != "flat" else ""}">{fmt(v["last"])}</td>'
             f'<td class="pc"><span class="tag {cls_pct}">{pct_txt}</span></td>'
-            f'<td class="nt">{v["note"]}</td></tr>')
+            f'<td class="nt">{note_html}</td></tr>')
 
 
 if __name__ == "__main__":

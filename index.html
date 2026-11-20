@@ -37,8 +37,15 @@ tr.grp td{background:#f8f9fb;font-size:12.5px;font-weight:700;color:#4b5563;padd
 .kpi .d{font-size:11.5px;color:#9aa0a6;margin-top:3px}
 .miss{margin:14px 30px 0;padding:10px 14px;background:#fff8e6;border:1px solid #f0d9a8;border-radius:8px;font-size:12.5px;color:#8a6d1f}
 .body-pad{padding-bottom:22px}
+.topbar{max-width:1080px;margin:0 auto 14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.back{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:#374151;text-decoration:none;background:#fff;border:1px solid #e3e6ea;border-radius:9px;padding:8px 14px;transition:.15s}
+.back:hover{border-color:#c8ccd2;color:#111827;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.langbtn{font-size:13px;font-weight:600;color:#4b5563;background:#fff;border:1px solid #e3e6ea;border-radius:9px;padding:8px 14px;cursor:pointer;transition:.15s}
+.langbtn:hover{border-color:#c8ccd2;color:#111827}
 @media(max-width:760px){
   body{padding:14px 10px}
+  .wrap{border-radius:12px}
+  .topbar{margin-bottom:10px;padding:0 2px}
   .kpi{grid-template-columns:repeat(2,1fr);padding:16px 16px 4px}
   .hd,.miss{margin-left:0;margin-right:0}
   .hd{padding:20px 18px}
@@ -49,29 +56,74 @@ tr.grp td{background:#f8f9fb;font-size:12.5px;font-weight:700;color:#4b5563;padd
   .nt{display:none}
   table{font-size:13px}
 }
-</style></head><body><div class="wrap">
+</style></head><body>
+
+<div class="topbar">
+  <a class="back" href="https://www.ilong.dpdns.org"><span data-zh="← 返回首页" data-en="← Back to Home">← 返回首页</span></a>
+  <button class="langbtn" id="langBtn" type="button">EN</button>
+</div>
+
+<div class="wrap">
 <div class="hd">
-  <h1>金融市场实时行情汇总</h1>
+  <h1><span data-zh="金融市场实时行情汇总" data-en="Global Markets Live Quotes">金融市场实时行情汇总</span></h1>
   <div class="sub">
-    <span>北京时间 <b>2026-11-20 15:23</b></span>
-    <span>纽约时间 <b>2026-11-20 02:23</b></span>
-    <span>伦敦时间 <b>2026-11-20 07:23</b></span>
-    <span>迪拜时间 <b>2026-11-20 11:23</b></span>
+    <span><span data-zh="北京时间" data-en="Beijing">北京时间</span> <b>2026-11-20 15:56</b></span>
+    <span><span data-zh="纽约时间" data-en="New York">纽约时间</span> <b>2026-11-20 02:56</b></span>
+    <span><span data-zh="伦敦时间" data-en="London">伦敦时间</span> <b>2026-11-20 07:56</b></span>
+    <span><span data-zh="迪拜时间" data-en="Dubai">迪拜时间</span> <b>2026-11-20 11:56</b></span>
   </div>
   <div class="sub sub2">
-    <span>涨跌基准 <b>前一交易日收盘 / 昨结</b></span>
-    <span>品种数 <b>15</b></span>
+    <span><span data-zh="涨跌基准" data-en="Change basis">涨跌基准</span> <b data-zh="前一交易日收盘 / 昨结" data-en="previous close / prior settle">前一交易日收盘 / 昨结</b></span>
+    <span><span data-zh="品种数" data-en="Instruments">品种数</span> <b>15</b></span>
   </div>
 </div>
 
 <div class="kpi">
-<div><div class="k">金银比</div><div class="v">85.0</div><div class="d">现货金 / 现货银</div></div><div><div class="k">金油比</div><div class="v">42.8</div><div class="d">现货金 / WTI</div></div><div><div class="k">布-WTI 价差</div><div class="v">9.56</div><div class="d">美元/桶</div></div><div><div class="k">离岸-在岸价差</div><div class="v">+27</div><div class="d">基点</div></div><div><div class="k">涨跌家数</div><div class="v"><span class="up">3</span> : <span class="dn">11</span></div><div class="d">平盘 1 个</div></div>
+<div><div class="k"><span data-zh="金银比" data-en="Gold/Silver Ratio">金银比</span></div><div class="v">84.4</div><div class="d"><span data-zh="现货金 / 现货银" data-en="spot gold / spot silver">现货金 / 现货银</span></div></div><div><div class="k"><span data-zh="金油比" data-en="Gold/Oil Ratio">金油比</span></div><div class="v">43.2</div><div class="d"><span data-zh="现货金 / WTI" data-en="spot gold / WTI">现货金 / WTI</span></div></div><div><div class="k"><span data-zh="布-WTI 价差" data-en="Brent-WTI Spread">布-WTI 价差</span></div><div class="v">9.42</div><div class="d"><span data-zh="美元/桶" data-en="USD/bbl">美元/桶</span></div></div><div><div class="k"><span data-zh="离岸-在岸价差" data-en="CNH-CNY Spread">离岸-在岸价差</span></div><div class="v">+28</div><div class="d"><span data-zh="基点" data-en="basis points">基点</span></div></div><div><div class="k"><span data-zh="涨跌家数" data-en="Advance / Decline">涨跌家数</span></div><div class="v"><span class="up">3</span> : <span class="dn">11</span></div><div class="d"><span data-zh="平盘 1 个" data-en="1 unchanged">平盘 1 个</span></div></div>
 </div>
 
 <table>
-<thead><tr><th>品种</th><th style="text-align:right">最新价</th><th style="text-align:right">涨跌幅</th><th>盘面</th></tr></thead>
-<tbody><tr class="grp"><td colspan="4" style="border-left:4px solid #1d4ed8">人民币汇率</td></tr><tr><td class="nm">在岸人民币 USD/CNY</td><td class="px down">6.6730</td><td class="pc"><span class="tag down">▼ -0.33%</span></td><td class="nt">日高 6.6810　日低 6.6674　昨收 6.6950　15:21:00</td></tr><tr><td class="nm">离岸人民币 USD/CNH</td><td class="px down">6.6757</td><td class="pc"><span class="tag down">▼ -0.26%</span></td><td class="nt">日高 6.6942　日低 6.6684　昨收 6.6934　15:22:58</td></tr><tr><td class="nm">美元指数 DXY</td><td class="px down">103.74</td><td class="pc"><span class="tag down">▼ -0.19%</span></td><td class="nt">日高 103.96　日低 103.71　昨收 103.94　15:23:05</td></tr><tr><td class="nm">人民币中间价</td><td class="px ">6.7131</td><td class="pc"><span class="tag flat">—</span></td><td class="nt"> 官方公布值　较前值调升 3bp</td></tr><tr class="grp"><td colspan="4" style="border-left:4px solid #b45309">原油</td></tr><tr><td class="nm">WTI 原油<span class="un">美元/桶</span></td><td class="px up">83.04</td><td class="pc"><span class="tag up">▲ +0.73%</span></td><td class="nt">日高 83.25　日低 82.37　昨收 82.44　15:23:03</td></tr><tr><td class="nm">布伦特原油<span class="un">美元/桶</span></td><td class="px up">92.60</td><td class="pc"><span class="tag up">▲ +0.68%</span></td><td class="nt">日高 92.89　日低 91.89　昨收 91.98　15:23:04</td></tr><tr><td class="nm">上海原油 SC 主连<span class="un">元/桶</span></td><td class="px up">591.00</td><td class="pc"><span class="tag up">▲ +2.44%</span></td><td class="nt">昨结 576.90　日高 597.10　日低 580.70　持仓 30,659</td></tr><tr class="grp"><td colspan="4" style="border-left:4px solid #a16207">黄金</td></tr><tr><td class="nm">伦敦现货黄金<span class="un">美元/盎司</span></td><td class="px down">3,550.8</td><td class="pc"><span class="tag down">▼ -2.05%</span></td><td class="nt">日高 3,636.6　日低 3,514.6　昨收 3,625.0　15:22:00</td></tr><tr><td class="nm">COMEX 黄金<span class="un">美元/盎司</span></td><td class="px down">3,548.1</td><td class="pc"><span class="tag down">▼ -3.73%</span></td><td class="nt">日高 3,638.1　日低 3,514.9　昨收 3,685.5　15:23:04</td></tr><tr><td class="nm">上海黄金 AU 主连<span class="un">元/克</span></td><td class="px down">768.56</td><td class="pc"><span class="tag down">▼ -4.89%</span></td><td class="nt">昨结 808.08　日高 803.74　日低 757.80　持仓 154,395</td></tr><tr class="grp"><td colspan="4" style="border-left:4px solid #6b7280">其他贵金属</td></tr><tr><td class="nm">伦敦现货白银<span class="un">美元/盎司</span></td><td class="px down">41.77</td><td class="pc"><span class="tag down">▼ -2.52%</span></td><td class="nt">日高 43.21　日低 41.08　昨收 42.85　15:22:00</td></tr><tr><td class="nm">COMEX 白银<span class="un">美元/盎司</span></td><td class="px down">42.18</td><td class="pc"><span class="tag down">▼ -6.02%</span></td><td class="nt">日高 43.68　日低 41.51　昨收 44.88　15:22:45</td></tr><tr><td class="nm">上海白银 AG 主连<span class="un">元/千克</span></td><td class="px down">10,038.0</td><td class="pc"><span class="tag down">▼ -7.11%</span></td><td class="nt">昨结 10,806.0　日高 10,895.0　日低 9,771.0　持仓 300,636</td></tr><tr><td class="nm">铂金 XPT（纽约）<span class="un">美元/盎司</span></td><td class="px down">1,294.6</td><td class="pc"><span class="tag down">▼ -3.93%</span></td><td class="nt">日高 1,340.3　日低 1,279.3　昨收 1,347.5　15:22:23</td></tr><tr><td class="nm">钯金 XPD（纽约）<span class="un">美元/盎司</span></td><td class="px down">884.85</td><td class="pc"><span class="tag down">▼ -3.58%</span></td><td class="nt">日高 913.00　日低 874.50　昨收 917.70　15:23:05</td></tr></tbody>
+<thead><tr>
+<th data-zh="品种" data-en="Instrument">品种</th>
+<th style="text-align:right" data-zh="最新价" data-en="Last">最新价</th>
+<th style="text-align:right" data-zh="涨跌幅" data-en="Change">涨跌幅</th>
+<th data-zh="盘面" data-en="Session">盘面</th>
+</tr></thead>
+<tbody><tr class="grp"><td colspan="4" style="border-left:4px solid #1d4ed8"><span data-zh="人民币汇率" data-en="CNY Rates">人民币汇率</span></td></tr><tr><td class="nm"><span data-zh="在岸人民币 USD/CNY" data-en="USD/CNY Onshore">在岸人民币 USD/CNY</span></td><td class="px down">6.6740</td><td class="pc"><span class="tag down">▼ -0.31%</span></td><td class="nt"><span data-zh="日高 6.6810　日低 6.6674　昨收 6.6950　15:56:00" data-en="High 6.6810 · Low 6.6674 · Prev 6.6950 · 15:56:00">日高 6.6810　日低 6.6674　昨收 6.6950　15:56:00</span></td></tr><tr><td class="nm"><span data-zh="离岸人民币 USD/CNH" data-en="USD/CNH Offshore">离岸人民币 USD/CNH</span></td><td class="px down">6.6768</td><td class="pc"><span class="tag down">▼ -0.25%</span></td><td class="nt"><span data-zh="日高 6.6942　日低 6.6684　昨收 6.6934　15:56:39" data-en="High 6.6942 · Low 6.6684 · Prev 6.6934 · 15:56:39">日高 6.6942　日低 6.6684　昨收 6.6934　15:56:39</span></td></tr><tr><td class="nm"><span data-zh="美元指数 DXY" data-en="US Dollar Index">美元指数 DXY</span></td><td class="px down">103.75</td><td class="pc"><span class="tag down">▼ -0.19%</span></td><td class="nt"><span data-zh="日高 103.96　日低 103.70　昨收 103.94　15:56:42" data-en="High 103.96 · Low 103.70 · Prev 103.94 · 15:56:42">日高 103.96　日低 103.70　昨收 103.94　15:56:42</span></td></tr><tr><td class="nm"><span data-zh="人民币中间价" data-en="CNY Central Parity">人民币中间价</span></td><td class="px ">6.7131</td><td class="pc"><span class="tag flat">—</span></td><td class="nt"><span data-zh="官方公布值　较前值调升 3bp" data-en="official fixing | up 3bp">官方公布值　较前值调升 3bp</span></td></tr><tr class="grp"><td colspan="4" style="border-left:4px solid #b45309"><span data-zh="原油" data-en="Crude Oil">原油</span></td></tr><tr><td class="nm"><span data-zh="WTI 原油" data-en="WTI Crude">WTI 原油</span><span class="un" data-zh="美元/桶" data-en="USD/bbl">美元/桶</span></td><td class="px up">82.67</td><td class="pc"><span class="tag up">▲ +0.28%</span></td><td class="nt"><span data-zh="日高 83.25　日低 82.37　昨收 82.44　15:56:43" data-en="High 83.25 · Low 82.37 · Prev 82.44 · 15:56:43">日高 83.25　日低 82.37　昨收 82.44　15:56:43</span></td></tr><tr><td class="nm"><span data-zh="布伦特原油" data-en="Brent Crude">布伦特原油</span><span class="un" data-zh="美元/桶" data-en="USD/bbl">美元/桶</span></td><td class="px up">92.10</td><td class="pc"><span class="tag up">▲ +0.13%</span></td><td class="nt"><span data-zh="日高 92.89　日低 91.80　昨收 91.98　15:56:35" data-en="High 92.89 · Low 91.80 · Prev 91.98 · 15:56:35">日高 92.89　日低 91.80　昨收 91.98　15:56:35</span></td></tr><tr><td class="nm"><span data-zh="上海原油 SC 主连" data-en="Shanghai Crude SC">上海原油 SC 主连</span><span class="un" data-zh="元/桶" data-en="CNY/bbl">元/桶</span></td><td class="px up">591.00</td><td class="pc"><span class="tag up">▲ +2.44%</span></td><td class="nt"><span data-zh="日高 597.10　日低 580.70　昨结 576.90　持仓 30,659" data-en="High 597.10 · Low 580.70 · Settle 576.90 · OI 30,659">日高 597.10　日低 580.70　昨结 576.90　持仓 30,659</span></td></tr><tr class="grp"><td colspan="4" style="border-left:4px solid #a16207"><span data-zh="黄金" data-en="Gold">黄金</span></td></tr><tr><td class="nm"><span data-zh="伦敦现货黄金" data-en="Spot Gold (London)">伦敦现货黄金</span><span class="un" data-zh="美元/盎司" data-en="USD/oz">美元/盎司</span></td><td class="px down">3,572.6</td><td class="pc"><span class="tag down">▼ -1.45%</span></td><td class="nt"><span data-zh="日高 3,636.6　日低 3,514.6　昨收 3,625.0　15:56:00" data-en="High 3,636.6 · Low 3,514.6 · Prev 3,625.0 · 15:56:00">日高 3,636.6　日低 3,514.6　昨收 3,625.0　15:56:00</span></td></tr><tr><td class="nm"><span data-zh="COMEX 黄金" data-en="COMEX Gold">COMEX 黄金</span><span class="un" data-zh="美元/盎司" data-en="USD/oz">美元/盎司</span></td><td class="px down">3,568.6</td><td class="pc"><span class="tag down">▼ -3.17%</span></td><td class="nt"><span data-zh="日高 3,638.1　日低 3,514.9　昨收 3,685.5　15:56:39" data-en="High 3,638.1 · Low 3,514.9 · Prev 3,685.5 · 15:56:39">日高 3,638.1　日低 3,514.9　昨收 3,685.5　15:56:39</span></td></tr><tr><td class="nm"><span data-zh="上海黄金 AU 主连" data-en="Shanghai Gold AU">上海黄金 AU 主连</span><span class="un" data-zh="元/克" data-en="CNY/g">元/克</span></td><td class="px down">768.56</td><td class="pc"><span class="tag down">▼ -4.89%</span></td><td class="nt"><span data-zh="日高 803.74　日低 757.80　昨结 808.08　持仓 154,395" data-en="High 803.74 · Low 757.80 · Settle 808.08 · OI 154,395">日高 803.74　日低 757.80　昨结 808.08　持仓 154,395</span></td></tr><tr class="grp"><td colspan="4" style="border-left:4px solid #6b7280"><span data-zh="其他贵金属" data-en="Other Metals">其他贵金属</span></td></tr><tr><td class="nm"><span data-zh="伦敦现货白银" data-en="Spot Silver (London)">伦敦现货白银</span><span class="un" data-zh="美元/盎司" data-en="USD/oz">美元/盎司</span></td><td class="px down">42.31</td><td class="pc"><span class="tag down">▼ -1.26%</span></td><td class="nt"><span data-zh="日高 43.21　日低 41.08　昨收 42.85　15:56:00" data-en="High 43.21 · Low 41.08 · Prev 42.85 · 15:56:00">日高 43.21　日低 41.08　昨收 42.85　15:56:00</span></td></tr><tr><td class="nm"><span data-zh="COMEX 白银" data-en="COMEX Silver">COMEX 白银</span><span class="un" data-zh="美元/盎司" data-en="USD/oz">美元/盎司</span></td><td class="px down">42.88</td><td class="pc"><span class="tag down">▼ -4.46%</span></td><td class="nt"><span data-zh="日高 43.68　日低 41.51　昨收 44.88　15:56:29" data-en="High 43.68 · Low 41.51 · Prev 44.88 · 15:56:29">日高 43.68　日低 41.51　昨收 44.88　15:56:29</span></td></tr><tr><td class="nm"><span data-zh="上海白银 AG 主连" data-en="Shanghai Silver AG">上海白银 AG 主连</span><span class="un" data-zh="元/千克" data-en="CNY/kg">元/千克</span></td><td class="px down">10,038.0</td><td class="pc"><span class="tag down">▼ -7.11%</span></td><td class="nt"><span data-zh="日高 10,895.0　日低 9,771.0　昨结 10,806.0　持仓 300,636" data-en="High 10,895.0 · Low 9,771.0 · Settle 10,806.0 · OI 300,636">日高 10,895.0　日低 9,771.0　昨结 10,806.0　持仓 300,636</span></td></tr><tr><td class="nm"><span data-zh="铂金 XPT（纽约）" data-en="Platinum XPT (NY)">铂金 XPT（纽约）</span><span class="un" data-zh="美元/盎司" data-en="USD/oz">美元/盎司</span></td><td class="px down">1,305.3</td><td class="pc"><span class="tag down">▼ -3.13%</span></td><td class="nt"><span data-zh="日高 1,340.3　日低 1,279.3　昨收 1,347.5　15:56:35" data-en="High 1,340.3 · Low 1,279.3 · Prev 1,347.5 · 15:56:35">日高 1,340.3　日低 1,279.3　昨收 1,347.5　15:56:35</span></td></tr><tr><td class="nm"><span data-zh="钯金 XPD（纽约）" data-en="Palladium XPD (NY)">钯金 XPD（纽约）</span><span class="un" data-zh="美元/盎司" data-en="USD/oz">美元/盎司</span></td><td class="px down">890.97</td><td class="pc"><span class="tag down">▼ -2.91%</span></td><td class="nt"><span data-zh="日高 913.00　日低 874.50　昨收 917.70　15:55:56" data-en="High 913.00 · Low 874.50 · Prev 917.70 · 15:55:56">日高 913.00　日低 874.50　昨收 917.70　15:55:56</span></td></tr></tbody>
 </table>
 
 <div class="body-pad"></div>
-</div></body></html>
+</div>
+
+<script>
+(function(){
+  var KEY = "ilong-lang";
+  var btn = document.getElementById("langBtn");
+  var TITLE = {zh: "金融市场实时行情 · 2026-11-20", en: "Market Quotes · 2026-11-20"};
+
+  function apply(lang){
+    var zh = lang !== "en";
+    document.documentElement.lang = zh ? "zh-CN" : "en";
+    var nodes = document.querySelectorAll("[data-zh]");
+    for (var i = 0; i < nodes.length; i++) {
+      var el = nodes[i];
+      var txt = zh ? el.getAttribute("data-zh") : el.getAttribute("data-en");
+      if (txt !== null) el.textContent = txt;
+    }
+    btn.textContent = zh ? "EN" : "中文";
+    btn.setAttribute("aria-label", zh ? "Switch to English" : "切换到中文");
+    document.title = zh ? TITLE.zh : TITLE.en;
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  apply(saved === "en" ? "en" : "zh");
+
+  btn.addEventListener("click", function(){
+    var next = document.documentElement.lang === "zh-CN" ? "en" : "zh";
+    try { localStorage.setItem(KEY, next); } catch (e) {}
+    apply(next);
+  });
+})();
+</script>
+</body></html>
