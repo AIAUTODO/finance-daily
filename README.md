@@ -15,7 +15,7 @@
 python build.py
 ```
 
-生成 `index.html`，直接用浏览器打开即可预览。
+生成 `finance.html` 与内容相同的 `index.html`，直接用浏览器打开即可预览。
 
 ## 自动更新机制
 
@@ -23,7 +23,7 @@ python build.py
 
 - 每天 UTC 23:00（北京 07:00 / 迪拜 03:00）自动运行
 - 抓行情 → 生成 `finance.html` 和 `index.html` → 自动提交回仓库
-- Cloudflare Pages 监测到仓库变更 → 自动重新部署
+- Cloudflare Pages 监测到仓库变更 → 自动重新部署，`finance.ilong.dpdns.org` 直接指向 `finance.html`
 
 **为什么选这个时间**：外盘 NYMEX/COMEX 在北京时间 05:00 收盘、06:00 开始新交易日，上海夜盘 02:30 收盘。07:00 运行时两侧数据都已定型，既拿到完整隔夜收盘，又赶在上班前。
 

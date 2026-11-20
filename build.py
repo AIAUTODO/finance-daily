@@ -220,6 +220,7 @@ def main():
     with open(idx_path, "w", encoding="utf-8") as f:
         f.write(html)
     print(f"[ok] 已生成 {out_path}（{len(html)} 字节，{len(quotes)} 个品种）", file=sys.stderr)
+    print(f"[ok] 已生成 {idx_path}", file=sys.stderr)
 
 
 def render(q):
@@ -255,16 +256,19 @@ def render(q):
     up_n = sum(1 for v in q.values() if v["dir"] == "up")
     dn_n = sum(1 for v in q.values() if v["dir"] == "down")
     flat_n = sum(1 for v in q.values() if v["dir"] == "flat")
+    kpis = compute_kpis(q) + [("涨跌家数", f"{up_n}:{dn_n}", "count")]
 
     kpi_html = ""
     for label, value, desc in kpis:
-        kpi_html += (f'<div><div class="k">{label}</div>'
-                     f'<div class="v">{value}</div>'
-                     f'<div class="d">{desc}</div></div>')
-    kpi_html += (f'<div><div class="k">涨跌家数</div>'
-                 f'<div class="v"><span class="up">{up_n}</span> : '
-                 f'<span class="dn">{dn_n}</span></div>'
-                 f'<div class="d">平盘 {flat_n} 个</div></div>')
+        if label == "涨跌家数":
+            kpi_html += (f'<div><div class="k">涨跌家数</div>'
+                         f'<div class="v"><span class="up">{up_n}</span> : '
+                         f'<span class="dn">{dn_n}</span></div>'
+                         f'<div class="d">平盘 {flat_n} 个</div></div>')
+        else:
+            kpi_html += (f'<div><div class="k">{label}</div>'
+                         f'<div class="v">{value}</div>'
+                         f'<div class="d">{desc}</div></div>')
 
     missing = [v[2] for v in SYMBOLS if v[1] not in q]
     missing_note = ""
